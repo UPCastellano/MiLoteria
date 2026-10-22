@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .predictor import predict
 from .scraper import fetch_results
@@ -31,3 +34,9 @@ def prediction(refresh: bool = False):
         raise HTTPException(422, str(exc))
     result["ultimos"] = draws[:5]
     return result
+
+
+# Frontend web (export de Expo) servido desde el mismo servicio; debe ir al final.
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+if STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="web")
