@@ -1,0 +1,7 @@
+backend/.venv/
+backend/app/cache.json
+__pycache__/
+.pytest_cache/
+node_modules/
+dist/
+.expo/
